@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text.Less" parent="Default.TextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Large" parent="Default.TextView">
+        <item name="android:textSize">27sp</item>
+    </style>
+
+    <style name="Text.Thin" parent="Default.TextView">
+        <item name="android:textColor">@color/half_black</item>
+    </style>
+
+    <style name="Text.LessThin" parent="Text.Less">
+        <item name="android:textColor">@color/half_black</item>
+    </style>
+
+    <style name="Text.Bold" parent="Default.TextView">
+        <item name="fontFamily">@font/inter_semi_bold</item>
+        <item name="fontWeight">600</item>
+    </style>
+
+    <style name="Text.LargeBold" parent="Text.Bold">
+        <item name="android:textSize">30sp</item>
+    </style>
+
+</resources>

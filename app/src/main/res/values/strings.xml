@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TodoR</string>
+    <string name="default_text_edit_hint">Название</string>
+</resources>
