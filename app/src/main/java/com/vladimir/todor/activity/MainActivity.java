@@ -33,11 +33,17 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        ToDoService.init(getApplicationContext());
+        ToDoService.init(getApplicationContext(), this);
 
         addToDoButton = new OnClickAddToDoButton(binding.todoPatternView);
 
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        initToDos();
+    }
+
+    private void initToDos() {
+        binding.todoRecyclerView.setAdapter(null);
 
         toDoRecyclerView = new ToDoRecyclerView(
                 binding.todoRecyclerView,
@@ -62,5 +68,9 @@ public class MainActivity extends AppCompatActivity {
         ).onClick();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void refresh() {
+        initToDos();
     }
 }

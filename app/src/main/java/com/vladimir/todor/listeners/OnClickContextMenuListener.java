@@ -18,7 +18,7 @@ public class OnClickContextMenuListener implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() != MotionEvent.ACTION_DOWN) return true;
 
-        switch (toDoCardView.getOpenType()) {
+        switch (toDoCardView.getCardOpenType()) {
             case PARTIALLY_OPEN:
                 toDoCardView.openFull();
                 break;

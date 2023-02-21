@@ -9,16 +9,19 @@ import com.vladimir.todor.activity.MainActivity;
 import com.vladimir.todor.data.ToDoService;
 import com.vladimir.todor.views.patterns.PatternStepView;
 import com.vladimir.todor.views.stepRecyclerView.StepRecyclerView;
+import com.vladimir.todor.views.todoRecyclerView.ToDoCardViewHolder;
 
 public class OnTouchAddStepInToDoListener implements View.OnTouchListener {
     private final PatternStepView patternStepView;
     private final int todoId;
+    private final ToDoCardViewHolder toDoCardView;
     private final StepRecyclerView stepsRecyclerView;
 
-    public OnTouchAddStepInToDoListener(PatternStepView patternStepView, int todoId, StepRecyclerView stepsRecyclerView) {
+    public OnTouchAddStepInToDoListener(PatternStepView patternStepView, int todoId, ToDoCardViewHolder toDoCardView, StepRecyclerView stepsRecyclerView) {
         this.patternStepView = patternStepView;
-        this.stepsRecyclerView = stepsRecyclerView;
         this.todoId = todoId;
+        this.toDoCardView = toDoCardView;
+        this.stepsRecyclerView = stepsRecyclerView;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -36,10 +39,11 @@ public class OnTouchAddStepInToDoListener implements View.OnTouchListener {
             MainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
             patternStepView.setVisibility(View.GONE);
             ToDoService.createNewStep(patternStepView.getText(), todoId, stepsRecyclerView);
+
+            toDoCardView.openPartially();
         }
 
         patternStepView.resetText();
-
         patternStepView.updateFocus();
 
         return true;

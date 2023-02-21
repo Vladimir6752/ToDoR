@@ -27,17 +27,15 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
     private PatternStepView patternStepView;
     private TodoCardviewBinding binding;
     private StepRecyclerView stepRecyclerView;
-    public CardOpenType cardOpenType = CardOpenType.FULL_CLOSE;
-    private ToDo toDo;
+    private CardOpenType cardOpenType = CardOpenType.FULL_CLOSE;
 
+    private ToDo toDo;
     public ToDoCardViewHolder(@NonNull View itemView) {
         super(itemView);
 
         binding = TodoCardviewBinding.bind(itemView);
         touchedView = binding.draggableButton;
         patternStepView = binding.stepPatternView;
-
-        closeFull();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -52,6 +50,7 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
                 new OnTouchAddStepInToDoListener(
                         patternStepView,
                         toDo.getId(),
+                        this,
                         stepRecyclerView
                 )
         );
@@ -76,6 +75,8 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
         binding.todoTitle.setText(item.getTitle());
         binding.createdDate.setText(item.getCreatedDate());
 
+        setOpenTypeFromToDo();
+
         stepRecyclerView = new StepRecyclerView(
                 binding.stepsRecyclerView,
                 ToDoService.stepDao.getStepsByTodoId(item.getId())
@@ -88,6 +89,21 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
         setListeners();
     }
 
+    private void setOpenTypeFromToDo() {
+        CardOpenType openType = CardOpenType.valueOf(toDo.getCardOpenType());
+
+        switch (openType) {
+            case FULL_CLOSE:
+                closeFull();
+                break;
+            case PARTIALLY_OPEN:
+                openPartially();
+            case FULL_OPEN:
+                openFull();
+                break;
+        }
+    }
+
     @Override
     public void onRowSelected() {
         binding.getRoot().setBackgroundColor(Color.LTGRAY);
@@ -98,6 +114,14 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
         binding.getRoot().setBackgroundColor(Color.WHITE);
     }
 
+    private void setOpenTypeInToDo(CardOpenType partiallyOpen) {
+        cardOpenType = partiallyOpen;
+
+        toDo.setCardOpenType(String.valueOf(cardOpenType));
+
+        ToDoService.updateToDo(toDo);
+    }
+
     public void openPartially() {
         binding.openContextTodoButton.setVisibility(View.VISIBLE);
         binding.createdDate.setVisibility(View.VISIBLE);
@@ -105,7 +129,7 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
 
         binding.draggableButton.setVisibility(View.GONE);
 
-        cardOpenType = CardOpenType.PARTIALLY_OPEN;
+        setOpenTypeInToDo(CardOpenType.PARTIALLY_OPEN);
     }
 
     public void closeFull() {
@@ -123,11 +147,7 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
 
         MainActivity.inputMethodManager.hideSoftInputFromWindow(itemView.getWindowToken(), 0);
 
-        cardOpenType = CardOpenType.FULL_CLOSE;
-    }
-
-    public CardOpenType getOpenType() {
-        return cardOpenType;
+        setOpenTypeInToDo(CardOpenType.FULL_CLOSE);
     }
 
     public void openFull() {
@@ -142,12 +162,16 @@ public class ToDoCardViewHolder extends DraggableItemViewHolder<ToDo> {
 
         binding.openContextTodoButton.setRotation(180);
 
-        cardOpenType = CardOpenType.FULL_OPEN;
+        setOpenTypeInToDo(CardOpenType.FULL_OPEN);
+    }
+
+    public CardOpenType getCardOpenType() {
+        return cardOpenType;
     }
 
     public enum CardOpenType {
         FULL_CLOSE,
         PARTIALLY_OPEN,
-        FULL_OPEN
+        FULL_OPEN;
     }
 }

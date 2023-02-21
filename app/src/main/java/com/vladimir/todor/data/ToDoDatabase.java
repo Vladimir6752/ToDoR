@@ -8,7 +8,7 @@ import com.vladimir.todor.models.ToDo;
 
 @Database(
         entities = {ToDo.class, Step.class},
-        version = 14,
+        version = 15,
         exportSchema = false
 )
 public abstract class ToDoDatabase extends RoomDatabase {

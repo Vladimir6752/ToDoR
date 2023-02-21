@@ -15,8 +15,10 @@ import java.util.List;
 public class ToDoService {
     public static ToDoDao todoDao;
     public static StepDao stepDao;
+    private static MainActivity mainActivity;
 
-    public static void init(Context applicationContext) {
+    public static void init(Context applicationContext, MainActivity mainActivity) {
+        ToDoService.mainActivity = mainActivity;
         ToDoDatabase database = Room
                 .databaseBuilder(applicationContext, ToDoDatabase.class, "todoData")
                 .allowMainThreadQueries()
@@ -38,6 +40,10 @@ public class ToDoService {
         MainActivity.toDoRecyclerView.addItem(all.get(all.size() - 1));
     }
 
+    public static void updateToDo(ToDo toDo) {
+        todoDao.update(toDo);
+    }
+
     public static void createNewStep(String stepTitle, int todoId, StepRecyclerView stepsRecyclerView) {
         if(stepTitle.equals("")) {
             return;
@@ -50,5 +56,7 @@ public class ToDoService {
         ToDoService.stepDao.add(step);
 
         stepsRecyclerView.addItem(step);
+
+        mainActivity.refresh();
     }
 }

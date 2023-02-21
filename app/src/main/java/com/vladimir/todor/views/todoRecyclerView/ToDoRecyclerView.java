@@ -15,8 +15,8 @@ public class ToDoRecyclerView {
     private ToDoRecyclerViewAdapter mAdapter;
     private ItemTouchHelper touchHelper;
 
-    public ToDoRecyclerView(RecyclerView recyclerView, List<ToDo> dataArray, int itemViewId) {
-        this.recyclerView = recyclerView;
+    public ToDoRecyclerView(RecyclerView todoRecyclerView, List<ToDo> dataArray, int itemViewId) {
+        this.recyclerView = todoRecyclerView;
 
         init(itemViewId, dataArray);
     }

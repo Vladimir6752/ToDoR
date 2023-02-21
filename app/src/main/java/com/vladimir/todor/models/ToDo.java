@@ -3,6 +3,8 @@ package com.vladimir.todor.models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.vladimir.todor.views.todoRecyclerView.ToDoCardViewHolder;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,6 +16,7 @@ public class ToDo {
     private boolean isPinned;
     private String createdDate = new SimpleDateFormat("dd.MM.yyyy 'в' HH:mm").format(new Date());
     private int indexInViewSequence;
+    private String cardOpenType = String.valueOf(ToDoCardViewHolder.CardOpenType.FULL_CLOSE);
 
     public ToDo() {}
 
@@ -67,5 +70,13 @@ public class ToDo {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getCardOpenType() {
+        return cardOpenType;
+    }
+
+    public void setCardOpenType(String cardOpenType) {
+        this.cardOpenType = cardOpenType;
     }
 }

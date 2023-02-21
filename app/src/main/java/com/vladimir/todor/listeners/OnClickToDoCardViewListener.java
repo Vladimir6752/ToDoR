@@ -18,7 +18,7 @@ public class OnClickToDoCardViewListener implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() != MotionEvent.ACTION_UP) return true;
 
-        switch (toDoCardView.getOpenType()) {
+        switch (toDoCardView.getCardOpenType()) {
             case FULL_CLOSE:
                 toDoCardView.openPartially();
                 break;
